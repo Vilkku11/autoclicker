@@ -9,9 +9,14 @@ function App() {
     setGreetMsg(await invoke("greet", { name }));
   }
 
+  const testButton = async () => {
+    await invoke("test");
+  };
+
   return (
     <div>
       <h1>Autoclicker!</h1>
+      <button onClick={testButton}>test</button>
       <Cps />
     </div>
   );
