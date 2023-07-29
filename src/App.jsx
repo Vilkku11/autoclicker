@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div>
-      <h1>Autoclicker</h1>
+      <h1>Autoclicker!</h1>
       <Cps />
     </div>
   );
