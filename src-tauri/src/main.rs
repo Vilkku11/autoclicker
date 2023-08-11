@@ -4,10 +4,8 @@
 
 //use tauri::SystemTray;
 use enigo::*;
-use std::{thread, time};
+use std::{thread, time, sync::mpsc};
 
-// RDEV TEST
-use rdev::{listen, Event};
 
 pub mod input;
 
@@ -27,16 +25,32 @@ async fn test() -> (){
 
     let mut enigo = Enigo::new();
 
-    let ten_ms = time::Duration::from_millis(5);
-    let now = time::Instant::now();
+    let ten_ms = time::Duration::from_millis(100);
+
+    let (sender, receiver) = mpsc::channel();
+
+    thread::spawn(move|| {
+        input::input(sender);
+    });
 
     for i in 0..100{
+
+        match receiver.try_recv() {
+            Ok(_) => {
+                println!("received input");
+                break;
+            }
+            Err(mpsc::TryRecvError::Disconnected) => break,
+            _ => {}
+        }
+
+
         enigo.mouse_move_to(i, i);
         thread::sleep(ten_ms);
     }
 
 
-    input::input();
+    
 
     //enigo.mouse_move_to(i, i);
     //enigo.mouse_move_to(500, 300);
