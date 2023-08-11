@@ -4,6 +4,15 @@
 
 //use tauri::SystemTray;
 use enigo::*;
+use std::{thread, time};
+
+// RDEV TEST
+use rdev::{listen, Event};
+
+pub mod input;
+
+
+
 
 
 
@@ -14,13 +23,24 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn test() -> (){
+async fn test() -> (){
 
     let mut enigo = Enigo::new();
 
-    enigo.mouse_move_to(500, 200);
-    enigo.mouse_move_to(500, 300);
-    enigo.mouse_move_to(400, 200);
+    let ten_ms = time::Duration::from_millis(5);
+    let now = time::Instant::now();
+
+    for i in 0..100{
+        enigo.mouse_move_to(i, i);
+        thread::sleep(ten_ms);
+    }
+
+
+    input::input();
+
+    //enigo.mouse_move_to(i, i);
+    //enigo.mouse_move_to(500, 300);
+    //enigo.mouse_move_to(400, 200);
 }
 
 
