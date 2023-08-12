@@ -9,6 +9,7 @@ use std::{thread, time, sync::mpsc};
 
 pub mod input;
 pub mod cursor;
+pub mod click;
 
 
 
@@ -43,7 +44,13 @@ fn cursor(state: &str) -> (){
 
 }
 
+#[tauri::command]
+fn click() -> (){
 
+    let handler = thread::spawn(move || {
+        click::click();
+    });
+}
 
 
 
@@ -98,7 +105,7 @@ fn main() {
 
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, test, cursor])
+        .invoke_handler(tauri::generate_handler![greet, test, cursor, click])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

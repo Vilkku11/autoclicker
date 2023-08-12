@@ -1,8 +1,8 @@
 
 
 use device_query::{DeviceQuery, DeviceEvents, DeviceState, MouseState, Keycode};
-use std::sync::mpsc;
-use std::str::FromStr;
+use std::{sync::mpsc,str::FromStr, thread, time };
+
 
 pub fn input(sender: mpsc::Sender<bool>) {
 
@@ -26,18 +26,14 @@ pub fn input(sender: mpsc::Sender<bool>) {
     let xtest = Keycode::from_str(s).unwrap();
 
 
-     
+     let ten_ms = time::Duration::from_millis(10);
     loop {
-        mouse1 = device_state.get_mouse();
+
         keys = device_state.get_keys();
 
        // println!("Current Mouse Coordinates: {:?}", mouse1.coords);
        // println!("Keyboard: {:?}", keys.last().is_none());
         
-    
-
-
-
 
          
         if keys.contains(&Keycode::A) && keys.contains(&xtest) {
@@ -46,6 +42,7 @@ pub fn input(sender: mpsc::Sender<bool>) {
             break;
         }
 
+        thread::sleep(ten_ms);
     }
     
 
