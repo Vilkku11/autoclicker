@@ -8,6 +8,7 @@ use std::{thread, time, sync::mpsc};
 
 
 pub mod input;
+pub mod cursor;
 
 
 
@@ -19,6 +20,37 @@ pub mod input;
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
+
+
+#[tauri::command]
+fn cursor(state: &str) -> (){
+    //println!("{}", state);
+
+
+
+    match state {
+        "square" => {
+            println!("square chosen");
+            let handler = thread::spawn(move || {
+                cursor::square();
+            });
+            
+        }
+        "random" => {println!("random chosen")}
+        _ => {println!("something is wrong")}
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
 
 #[tauri::command]
 async fn test() -> (){
@@ -40,7 +72,10 @@ async fn test() -> (){
                 println!("received input");
                 break;
             }
-            Err(mpsc::TryRecvError::Disconnected) => break,
+            Err(mpsc::TryRecvError::Disconnected) => {
+                println!("disconnected :(");
+                break;
+            }
             _ => {}
         }
 
@@ -63,7 +98,7 @@ fn main() {
 
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, test])
+        .invoke_handler(tauri::generate_handler![greet, test, cursor])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

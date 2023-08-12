@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
-import Cps from "./components/Cps";
+
+import Cps from "./click_tab/Cps";
+import Cursor from "./cursor_tab/Cursor";
+
+//react tabs test
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+//import "react-tabs/style/react-tabs.css";
 
 function App() {
   async function greet() {
@@ -16,8 +22,19 @@ function App() {
   return (
     <div>
       <h1>Autoclicker!</h1>
-      <button onClick={testButton}>test</button>
-      <Cps />
+      <Tabs>
+        <TabList>
+          <Tab>Clicker</Tab>
+          <Tab>Cursor</Tab>
+        </TabList>
+
+        <TabPanel>
+          <Cps />
+        </TabPanel>
+        <TabPanel>
+          <Cursor />
+        </TabPanel>
+      </Tabs>
     </div>
   );
 }

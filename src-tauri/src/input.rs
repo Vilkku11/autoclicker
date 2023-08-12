@@ -1,7 +1,8 @@
 
 
-use device_query::{DeviceQuery, DeviceState, MouseState, Keycode};
+use device_query::{DeviceQuery, DeviceEvents, DeviceState, MouseState, Keycode};
 use std::sync::mpsc;
+use std::str::FromStr;
 
 pub fn input(sender: mpsc::Sender<bool>) {
 
@@ -18,23 +19,35 @@ pub fn input(sender: mpsc::Sender<bool>) {
     
     let stop: bool = true;
 
-    while true {
+
+    
+    let s = "LShift";
+
+    let xtest = Keycode::from_str(s).unwrap();
+
+
+     
+    loop {
         mouse1 = device_state.get_mouse();
         keys = device_state.get_keys();
 
-        println!("Current Mouse Coordinates: {:?}", mouse1.coords);
-        println!("Keyboard: {:?}", keys.last().is_none());
+       // println!("Current Mouse Coordinates: {:?}", mouse1.coords);
+       // println!("Keyboard: {:?}", keys.last().is_none());
         
-        
+    
 
-        if keys.contains(&Keycode::A) && keys.contains(&Keycode::LShift) {
+
+
+
+         
+        if keys.contains(&Keycode::A) && keys.contains(&xtest) {
             println!("sending message");
             sender.send(stop).unwrap();
             break;
         }
 
     }
-
+    
 
 
 }
