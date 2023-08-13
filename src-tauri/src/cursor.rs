@@ -59,8 +59,8 @@ pub fn square() {
             enigo.mouse_move_to(x, y);
         }else if x > min_x && y == max_y {
             x -= 5;
-            if x > max_x {
-                x = max_x;
+            if x < min_x {
+                x = min_x;
             }
             enigo.mouse_move_to(x, y);
         }else if x == min_x && y == max_y {
@@ -68,8 +68,8 @@ pub fn square() {
             enigo.mouse_move_to(x, y);
         }else if x == min_x && y > min_y {
             y -= 5;
-            if y > max_y {
-                y = max_y;
+            if y < min_y {
+                y = min_y;
             }
             enigo.mouse_move_to(x, y);
         }
