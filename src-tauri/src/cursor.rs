@@ -37,29 +37,40 @@ pub fn square() {
 
         // Move cursor
         if x == min_x && y == min_y {
-            println!("in min");
             x += 5;
             enigo.mouse_move_to(x, y);
         }else if x < max_x && y == min_y {
             x += 5;
+            if x > max_x {
+                x = max_x;
+            }
             enigo.mouse_move_to( x , y);
         }else if x == max_x && y == min_y {
             y += 5;
             enigo.mouse_move_to(x, y);
         }else if x == max_x && y < max_y {
             y += 5;
+            if y > max_y {
+                y = max_y;
+            }
             enigo.mouse_move_to(x, y);
         }else if x == max_x && y == max_y {
             x -= 5;
             enigo.mouse_move_to(x, y);
         }else if x > min_x && y == max_y {
             x -= 5;
+            if x > max_x {
+                x = max_x;
+            }
             enigo.mouse_move_to(x, y);
         }else if x == min_x && y == max_y {
             y -= 5;
             enigo.mouse_move_to(x, y);
         }else if x == min_x && y > min_y {
             y -= 5;
+            if y > max_y {
+                y = max_y;
+            }
             enigo.mouse_move_to(x, y);
         }
 
