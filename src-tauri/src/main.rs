@@ -32,7 +32,7 @@ fn cursor(state: &str) -> (){
     match state {
         "square" => {
             println!("square chosen");
-            let handler = thread::spawn(move || {
+            thread::spawn(move || {
                 cursor::square();
             });
             
@@ -47,7 +47,7 @@ fn cursor(state: &str) -> (){
 #[tauri::command]
 fn click() -> (){
 
-    let handler = thread::spawn(move || {
+    thread::spawn(move || {
         click::click();
     });
 }

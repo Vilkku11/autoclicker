@@ -3,18 +3,17 @@ use std::{thread,time,sync::mpsc};
 
 use enigo::*;
 
-#[path = "input.rs"]
-mod input;
 
+use crate::input;
 
 pub fn click () {
-    println!("in cliick");
+
 
     let (sender, receiver) = mpsc::channel();
 
     let mut enigo: Enigo = Enigo::new();
 
-    let handler = thread::spawn(move || {
+    thread::spawn(move || {
         input::input(sender);
     });
 

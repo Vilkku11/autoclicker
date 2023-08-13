@@ -1,6 +1,6 @@
 
 
-use device_query::{DeviceQuery, DeviceEvents, DeviceState, MouseState, Keycode};
+use device_query::{DeviceQuery, DeviceState, Keycode};
 use std::{sync::mpsc,str::FromStr, thread, time };
 
 
@@ -12,9 +12,9 @@ pub fn input(sender: mpsc::Sender<bool>) {
 
 
     let device_state = DeviceState::new();
-    let mouse: MouseState = device_state.get_mouse();
+ 
 
-    let mut mouse1: MouseState;
+
     let mut keys: Vec<Keycode>;
     
     let stop: bool = true;
