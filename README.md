@@ -4,4 +4,4 @@ Simple autoclicker
 
 ## Build
 
-> npm i && npm run tauri build
+`npm i && npm run tauri build``
