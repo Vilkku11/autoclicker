@@ -2,9 +2,8 @@
 use std::{thread,time,sync::mpsc};
 
 use enigo::*;
+use rand::Rng;
 
-//#[path = "input.rs"]
-//mod input;
 
 use crate::input;
 
@@ -29,7 +28,6 @@ pub fn square() {
     // Set initial cursor position
     let mut x = min_x;
     let mut y = min_y;
-
     enigo.mouse_move_to(min_x,min_y);
 
     loop {
@@ -101,6 +99,69 @@ pub fn square() {
 
 
 }
+
+
+pub fn random() -> () {
+    
+    let (sender, receiver) = mpsc::channel();
+    let mut enigo: Enigo = Enigo::new();
+    let ten_ms = time::Duration::from_millis(10);
+
+
+    let mut direction: i32;
+    let mut amount: i32;
+
+
+
+    thread::spawn(move || {
+        input::input(sender);
+    });
+
+    loop {
+
+        
+        // calculate direction (up, down, right left) and how many pixels)
+        direction = rand::thread_rng().gen_range(0..4);
+        amount = rand::thread_rng().gen_range(1..6);
+
+        match direction {
+            0 => {
+                enigo.mouse_move_relative(0,-amount)
+            }
+            1 => {
+                enigo.mouse_move_relative(amount, 0)
+            }
+            2 => {
+                enigo.mouse_move_relative(0, amount)
+            }
+            3 => {
+                enigo.mouse_move_relative(-amount, 0)
+            }
+            _ => {}
+        }
+
+        match receiver.try_recv() {
+            Ok(_) => {
+                println!("input received");
+                break;
+            }
+            Err(mpsc::TryRecvError::Disconnected) => {
+                println!("err disconnected");
+                break;
+            }
+            _ => {}
+        }
+
+        thread::sleep(ten_ms);
+
+    }
+
+
+
+
+}
+
+
 
 fn calculate_square() -> (i32,i32,i32,i32){
 

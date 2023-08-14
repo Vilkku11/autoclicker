@@ -38,7 +38,12 @@ fn cursor(state: &str) -> (){
             });
             
         }
-        "random" => {println!("random chosen")}
+        "random" => {
+            println!("random chosen");
+            thread::spawn( || {
+                cursor::random();
+            });
+        }
         _ => {println!("something is wrong")}
     }
 
