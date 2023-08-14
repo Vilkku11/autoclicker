@@ -5,6 +5,7 @@
 //use tauri::SystemTray;
 use enigo::*;
 use std::{thread, time, sync::mpsc};
+use tauri::{SystemTray, CustomMenuItem, SystemTrayMenu, SystemTrayEvent};
 
 
 pub mod input;
@@ -103,8 +104,26 @@ async fn test() -> (){
 fn main() {
 
 
+    // Systemtray
+
+    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
+    let tray_menu = SystemTrayMenu::new().add_item(quit);
+
+    let tray = SystemTray::new().with_menu(tray_menu);
 
     tauri::Builder::default()
+        .system_tray(tray)
+        .on_system_tray_event(|app, event| match event {
+            SystemTrayEvent::MenuItemClick {id, ..} => {
+                match id.as_str() {
+                    "quit" => {
+                        std::process::exit(0);
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        })
         .invoke_handler(tauri::generate_handler![greet, test, cursor, click])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

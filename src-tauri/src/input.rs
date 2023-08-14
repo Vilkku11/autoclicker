@@ -1,6 +1,6 @@
 
 
-use device_query::{DeviceQuery, DeviceState, Keycode};
+use device_query::{DeviceQuery, DeviceEvents, DeviceState, Keycode};
 use std::{sync::mpsc,str::FromStr, thread, time };
 
 
@@ -27,7 +27,15 @@ pub fn input(sender: mpsc::Sender<bool>) {
 
 
      let ten_ms = time::Duration::from_millis(10);
-    loop {
+
+
+
+
+    
+
+
+
+     loop {
 
         keys = device_state.get_keys();
 
