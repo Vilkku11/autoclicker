@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "autoclicker",
-    "version": "0.0.0"
+    "version": "0.0.1"
   },
   "tauri": {
     "systemTray": {
@@ -41,7 +41,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "autoclicker",
+        "title": "Autoclicker",
         "width": 800,
         "height": 600
       }

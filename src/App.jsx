@@ -2,8 +2,8 @@ import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 
-import Cps from "./click_tab/Cps";
-import Cursor from "./cursor_tab/Cursor";
+import Cps from "./tabs/Cps";
+import Cursor from "./tabs/Cursor";
 
 //react tabs test
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";

@@ -26,7 +26,7 @@ pub fn input(sender: mpsc::Sender<bool>) {
     let xtest = Keycode::from_str(s).unwrap();
 
 
-     let ten_ms = time::Duration::from_millis(10);
+     let ten_ms = time::Duration::from_millis(15);
 
 
 

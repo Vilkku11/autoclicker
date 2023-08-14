@@ -3,6 +3,18 @@
 version = 3
 
 [[package]]
+name = "Autoclicker"
+version = "0.0.1"
+dependencies = [
+ "device_query",
+ "enigo",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -91,18 +103,6 @@ name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
-
-[[package]]
-name = "autoclicker"
-version = "0.0.0"
-dependencies = [
- "device_query",
- "enigo",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
-]
 
 [[package]]
 name = "backtrace"

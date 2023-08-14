@@ -1,6 +1,6 @@
 [package]
-name = "autoclicker"
-version = "0.0.0"
+name = "Autoclicker"
+version = "0.0.1"
 description = "A Tauri App"
 authors = ["you"]
 license = ""
