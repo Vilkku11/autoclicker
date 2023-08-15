@@ -6,7 +6,11 @@ use enigo::*;
 
 use crate::input;
 
-pub fn click (speed: u64) {
+
+use spin_sleep::LoopHelper;
+
+
+pub fn click (speed: f64) {
 
 
     let (sender, receiver) = mpsc::channel();
@@ -21,13 +25,15 @@ pub fn click (speed: u64) {
     thread::sleep(wait_time);
 
 
-    let time_between_clicks = 1000 / speed;
 
 
+   let mut loop_helper = LoopHelper::builder()
+        .build_with_target_rate(speed);
 
-    let wait_between_clicks = time::Duration::from_millis(time_between_clicks);
     
     loop {
+
+        loop_helper.loop_start();
 
         match receiver.try_recv() {
             Ok(_) => {
@@ -43,8 +49,7 @@ pub fn click (speed: u64) {
 
         println!("click once");
         enigo.mouse_click(MouseButton::Left);
-        thread::sleep(wait_between_clicks);
-
+        loop_helper.loop_sleep();
     }
 
 
