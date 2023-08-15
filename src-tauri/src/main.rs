@@ -50,11 +50,13 @@ fn cursor(state: &str) -> (){
 
 }
 
-#[tauri::command]
-fn click() -> (){
+#[tauri::command(rename_all = "snake_case")]
+fn click(cps: &str) -> (){
+
+    let speed = cps.parse::<u64>().unwrap();
 
     thread::spawn(move || {
-        click::click();
+        click::click(speed);
     });
 }
 
