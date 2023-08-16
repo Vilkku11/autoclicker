@@ -60,6 +60,19 @@ fn click(cps: &str) -> (){
     });
 }
 
+#[tauri::command]
+async fn set_key_bind() -> () {
+
+    let (sender, receiver) = mpsc::channel();
+
+   let handler =  thread::spawn(move|| {
+        input::input(sender);
+    });
+
+    let res = handler.join();
+
+
+}
 
 
 
@@ -131,7 +144,7 @@ fn main() {
             }
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![greet, test, cursor, click])
+        .invoke_handler(tauri::generate_handler![greet, test, cursor, click, set_key_bind])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

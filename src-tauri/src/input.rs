@@ -13,8 +13,6 @@ pub fn input(sender: mpsc::Sender<bool>) {
 
     let device_state = DeviceState::new();
  
-
-
     let mut keys: Vec<Keycode>;
     
     let stop: bool = true;
@@ -27,13 +25,6 @@ pub fn input(sender: mpsc::Sender<bool>) {
 
 
      let ten_ms = time::Duration::from_millis(15);
-
-
-
-
-    
-
-
 
      loop {
 
@@ -55,6 +46,11 @@ pub fn input(sender: mpsc::Sender<bool>) {
     
 
 
+}
+
+pub fn get_key_bind() {
+
+    let device_state = DeviceState::new();
 }
 
 

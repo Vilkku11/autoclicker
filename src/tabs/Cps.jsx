@@ -10,6 +10,10 @@ const Cps = () => {
     await invoke("click", { cps: cps });
   };
 
+  const setKeyBind = async () => {
+    await invoke("set_key_bind");
+  };
+
   return (
     <div>
       <label>Click per second</label>
@@ -26,6 +30,7 @@ const Cps = () => {
         ></input>
         <button>Start</button>
       </form>
+      <button onClick={setKeyBind}></button>
     </div>
   );
 };
