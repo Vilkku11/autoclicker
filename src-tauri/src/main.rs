@@ -83,6 +83,14 @@ async fn set_key_bind() -> Vec<String> {
 
 }
 
+#[tauri::command]
+fn hold() -> (){
+
+    thread::spawn(move || {
+        click::hold();
+    });
+}
+
 
 
 fn main() {
@@ -108,7 +116,7 @@ fn main() {
             }
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![cursor, click, set_key_bind])
+        .invoke_handler(tauri::generate_handler![cursor, click, set_key_bind, hold])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
