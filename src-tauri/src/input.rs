@@ -48,9 +48,49 @@ pub fn input(sender: mpsc::Sender<bool>) {
 
 }
 
-pub fn get_key_bind() {
+pub fn get_key_bind() ->Vec<Keycode> {
 
     let device_state = DeviceState::new();
+
+    let mut keys: Vec<Keycode>;
+    let stop: bool = true;
+
+    loop {
+
+        keys = device_state.get_keys();
+
+        if (keys.contains(&Keycode::LShift) ||
+           keys.contains(&Keycode::LControl) ||
+           keys.contains(&Keycode::LAlt) ||
+           keys.contains(&Keycode::RControl) ||
+           keys.contains(&Keycode::RAlt) ||
+           keys.contains(&Keycode::RShift)) &&
+           keys.len() > 1
+             {
+            println!("{}", keys.len());
+            return keys;
+
+
+        }else if !(keys.contains(&Keycode::LShift) ||
+            keys.contains(&Keycode::LControl) ||
+            keys.contains(&Keycode::LAlt) ||
+            keys.contains(&Keycode::RControl) ||
+            keys.contains(&Keycode::RAlt) ||
+            keys.contains(&Keycode::RShift)) &&
+            keys.len() != 0 && keys.len() < 2 {
+            println!("only one key!!!");
+            println!("{}", keys.len());
+            println!("{}", !keys.contains(&Keycode::LControl));
+            return keys;
+        }
+
+
+
+        println!("in get keys looop");
+
+
+    }
+
 }
 
 

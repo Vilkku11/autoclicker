@@ -14,16 +14,6 @@ pub mod click;
 
 
 
-
-
-
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
-
 #[tauri::command]
 fn cursor(state: &str) -> (){
     //println!("{}", state);
@@ -58,67 +48,34 @@ fn click(cps: &str) -> (){
     thread::spawn(move || {
         click::click(speed);
     });
+    println!("ending click functiooon");
 }
 
 #[tauri::command]
 async fn set_key_bind() -> () {
 
-    let (sender, receiver) = mpsc::channel();
-
-   let handler =  thread::spawn(move|| {
-        input::input(sender);
-    });
-
-    let res = handler.join();
 
 
-}
+    let keys = input::get_key_bind();
+    println!("getkeybind ENDED");
 
 
+    println!("endind set key bind");
 
 
-
-
-
-#[tauri::command]
-async fn test() -> (){
-
-    let mut enigo = Enigo::new();
-
-    let ten_ms = time::Duration::from_millis(100);
-
-    let (sender, receiver) = mpsc::channel();
-
-    thread::spawn(move|| {
-        input::input(sender);
-    });
-
-    for i in 0..100{
-
-        match receiver.try_recv() {
-            Ok(_) => {
-                println!("received input");
-                break;
-            }
-            Err(mpsc::TryRecvError::Disconnected) => {
-                println!("disconnected :(");
-                break;
-            }
-            _ => {}
+   /*  match receiver.try_recv() {
+        Ok(_) => {
+            println!("received input");
         }
+        Err(mpsc::TryRecvError::Disconnected) => {
+            println!("disconnected :(");
+        }
+        _ => {}
 
+    }*/
 
-        enigo.mouse_move_to(i, i);
-        thread::sleep(ten_ms);
-    }
-
-
-    
-
-    //enigo.mouse_move_to(i, i);
-    //enigo.mouse_move_to(500, 300);
-    //enigo.mouse_move_to(400, 200);
 }
+
 
 
 fn main() {
@@ -144,7 +101,7 @@ fn main() {
             }
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![greet, test, cursor, click, set_key_bind])
+        .invoke_handler(tauri::generate_handler![cursor, click, set_key_bind])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
