@@ -3,15 +3,28 @@ import "./Cps.css";
 import { useState } from "react";
 const Cps = () => {
   const [cps, setCps] = useState(0);
+  const [keys, setKeys] = useState("LShift + A");
+  const [list, setList] = useState();
 
   const click = async (event) => {
     event.preventDefault();
     console.log(cps);
-    await invoke("click", { cps: cps });
+    await invoke("click", { cps: cps, key_bind: list });
   };
 
   const setKeyBind = async () => {
-    await invoke("set_key_bind");
+    await invoke("set_key_bind").then((list) => {
+      setList(list);
+      let keybind = "";
+      for (const key of list) {
+        if (keybind != "") {
+          keybind = keybind + " + " + key;
+        } else {
+          keybind = keybind + key;
+        }
+      }
+      setKeys(keybind);
+    });
   };
 
   return (
@@ -30,7 +43,8 @@ const Cps = () => {
         ></input>
         <button>Start</button>
       </form>
-      <button onClick={setKeyBind}></button>
+      <label>Keybind to stop:</label>
+      <button onClick={setKeyBind}>{keys}</button>
     </div>
   );
 };

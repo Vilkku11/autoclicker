@@ -6,6 +6,7 @@
 use enigo::*;
 use std::{thread, time, sync::mpsc};
 use tauri::{SystemTray, CustomMenuItem, SystemTrayMenu, SystemTrayEvent};
+use device_query::Keycode;
 
 
 pub mod input;
@@ -40,7 +41,7 @@ fn cursor(state: &str) -> (){
 
 }
 
-#[tauri::command(rename_all = "snake_case")]
+#[tauri::command]
 fn click(cps: &str) -> (){
 
     let speed = cps.parse::<f64>().unwrap();
@@ -52,15 +53,21 @@ fn click(cps: &str) -> (){
 }
 
 #[tauri::command]
-async fn set_key_bind() -> () {
+async fn set_key_bind() -> Vec<String> {
 
 
 
     let keys = input::get_key_bind();
     println!("getkeybind ENDED");
 
+    let mut  v: Vec<String> = Vec::new();
 
-    println!("endind set key bind");
+    for Keycode in keys.iter() {
+        v.push(Keycode.to_string());
+        println!("{}", Keycode.to_string());
+    }
+    println!("strings now?");
+    return v;
 
 
    /*  match receiver.try_recv() {

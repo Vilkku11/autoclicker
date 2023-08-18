@@ -9,6 +9,7 @@ const Cursor = () => {
     <div>
       <button onClick={() => moveCursor("square")}>square</button>
       <button onClick={() => moveCursor("random")}>random</button>
+      <laberl>Shift + A to stop</laberl>
     </div>
   );
 };
