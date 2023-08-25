@@ -16,23 +16,24 @@ pub mod click;
 
 
 #[tauri::command]
-fn cursor(state: &str) -> (){
-    //println!("{}", state);
-
+fn cursor(data: Vec<String>) -> (){
+    
+    let state: &str = data[0].as_str();
+    let keys = data[1].clone();
 
 
     match state {
         "square" => {
             println!("square chosen");
             thread::spawn(move || {
-                cursor::square();
+                cursor::square(keys);
             });
             
         }
         "random" => {
             println!("random chosen");
             thread::spawn( || {
-                cursor::random();
+                cursor::random(keys);
             });
         }
         _ => {println!("something is wrong")}
@@ -86,17 +87,19 @@ async fn set_key_bind() -> Vec<String> {
 }
 
 #[tauri::command]
-fn hold() -> (){
+fn hold(data: Vec<String>) -> (){
+
+    let key_to_hold = data[0].clone();
+    let keys = data[1].clone();
 
     thread::spawn(move || {
-        click::hold();
+        click::hold(key_to_hold, keys);
     });
 }
 
 
 
 fn main() {
-
 
     // Systemtray
 

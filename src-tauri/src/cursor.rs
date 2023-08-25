@@ -7,7 +7,7 @@ use rand::Rng;
 
 use crate::input;
 
-pub fn square() {
+pub fn square(keys: String) {
 
     let (sender, receiver) = mpsc::channel();
 
@@ -16,9 +16,8 @@ pub fn square() {
     let ten_ms = time::Duration::from_millis(10);
 
 
-    let string = String::new();
     thread::spawn(move || {
-        input::input(sender, string);
+        input::input(sender, keys);
     });
 
 
@@ -101,7 +100,7 @@ pub fn square() {
 }
 
 
-pub fn random() -> () {
+pub fn random(keys: String) -> () {
     
     let (sender, receiver) = mpsc::channel();
     let mut enigo: Enigo = Enigo::new();
@@ -112,9 +111,8 @@ pub fn random() -> () {
     let mut amount: i32;
 
 
-    let string = String::new();
     thread::spawn(move || {
-        input::input(sender, string);
+        input::input(sender, keys);
     });
 
     loop {

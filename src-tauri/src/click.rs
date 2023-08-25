@@ -55,18 +55,19 @@ pub fn click (speed: f64, keys: String) {
 
 }
 
-pub fn hold () {
+pub fn hold (key_to_hold: String, keys: String) {
     
     let (sender, receiver) = mpsc::channel();
     let mut enigo: Enigo = Enigo::new();
-    let string = String::new();
+
     thread::spawn(move || {
-        input::input(sender, string);
+        input::input(sender, keys);
     });
 
     let wait_time = time::Duration::from_millis(1000);
     thread::sleep(wait_time);
-
+    let key = Key::Layout(' ');
+    println!("{:?}", key);
 
     enigo.key_down(Key::Space);
 

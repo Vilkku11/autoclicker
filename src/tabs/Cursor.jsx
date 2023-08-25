@@ -1,15 +1,22 @@
 import { invoke } from "@tauri-apps/api/tauri";
+import { useState } from "react";
+
+import InputKey from "../components/InputKey";
 
 const Cursor = () => {
+  const [keys, setKeys] = useState("LShift + A");
   const moveCursor = async (state) => {
-    await invoke("cursor", { state });
+    let data = [state, keys];
+
+    await invoke("cursor", { data });
   };
 
   return (
     <div>
       <button onClick={() => moveCursor("square")}>square</button>
       <button onClick={() => moveCursor("random")}>random</button>
-      <laberl>Shift + A to stop</laberl>
+      <label>Set keybind to stop:</label>
+      <InputKey keys={keys} setKeys={setKeys} />
     </div>
   );
 };
