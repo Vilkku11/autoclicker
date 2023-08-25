@@ -9,7 +9,10 @@ const Cps = () => {
   const click = async (event) => {
     event.preventDefault();
     console.log(cps);
-    await invoke("click", { cps: cps, key_bind: list });
+
+    const data = [String(cps), keys];
+
+    await invoke("click", { data: data });
   };
 
   const setKeyBind = async () => {

@@ -42,12 +42,14 @@ fn cursor(state: &str) -> (){
 }
 
 #[tauri::command]
-fn click(cps: &str) -> (){
+fn click(data: Vec<String>) -> (){
 
-    let speed = cps.parse::<f64>().unwrap();
+    let speed = data[0].clone().parse::<f64>().unwrap();
+
+    let keys = data[1].clone();
 
     thread::spawn(move || {
-        click::click(speed);
+        click::click(speed, keys);
     });
     println!("ending click functiooon");
 }

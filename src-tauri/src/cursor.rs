@@ -16,9 +16,9 @@ pub fn square() {
     let ten_ms = time::Duration::from_millis(10);
 
 
-
+    let string = String::new();
     thread::spawn(move || {
-        input::input(sender);
+        input::input(sender, string);
     });
 
 
@@ -112,9 +112,9 @@ pub fn random() -> () {
     let mut amount: i32;
 
 
-
+    let string = String::new();
     thread::spawn(move || {
-        input::input(sender);
+        input::input(sender, string);
     });
 
     loop {

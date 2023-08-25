@@ -10,7 +10,7 @@ use crate::input;
 use spin_sleep::LoopHelper;
 
 
-pub fn click (speed: f64) {
+pub fn click (speed: f64, keys: String) {
 
 
     let (sender, receiver) = mpsc::channel();
@@ -18,7 +18,7 @@ pub fn click (speed: f64) {
     let mut enigo: Enigo = Enigo::new();
 
     thread::spawn(move || {
-        input::input(sender);
+        input::input(sender, keys);
     });
 
     let wait_time = time::Duration::from_millis(1000);
@@ -59,8 +59,9 @@ pub fn hold () {
     
     let (sender, receiver) = mpsc::channel();
     let mut enigo: Enigo = Enigo::new();
+    let string = String::new();
     thread::spawn(move || {
-        input::input(sender);
+        input::input(sender, string);
     });
 
     let wait_time = time::Duration::from_millis(1000);
