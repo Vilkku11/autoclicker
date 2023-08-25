@@ -55,6 +55,8 @@ pub fn get_key_bind() ->Vec<Keycode> {
     let mut keys: Vec<Keycode>;
     let stop: bool = true;
 
+    let fifteen_ms = time::Duration::from_millis(15);
+
     loop {
 
         keys = device_state.get_keys();
@@ -87,7 +89,7 @@ pub fn get_key_bind() ->Vec<Keycode> {
 
 
         println!("in get keys looop");
-
+        thread::sleep(fifteen_ms);
 
     }
 
