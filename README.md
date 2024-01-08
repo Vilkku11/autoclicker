@@ -1,6 +1,6 @@
 # Autoclicker
 
-Simple autoclicker
+Simple autoclicker using Tauri framework
 
 ## Build
 
