@@ -1,26 +1,21 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-
 //use tauri::SystemTray;
-use enigo::*;
-use std::{thread, time, sync::mpsc};
-use tauri::{SystemTray, CustomMenuItem, SystemTrayMenu, SystemTrayEvent};
 use device_query::Keycode;
+use enigo::*;
+use std::{sync::mpsc, thread, time};
+//use tauri::{CustomMenuItem, tray::TrayIconBuilder, SystemTrayEvent, SystemTrayMenu};
 
 
-pub mod input;
-pub mod cursor;
 pub mod click;
-
-
+pub mod cursor;
+pub mod input;
 
 #[tauri::command]
-fn cursor(data: Vec<String>) -> (){
-    
+fn cursor(data: Vec<String>) -> () {
     let state: &str = data[0].as_str();
     let keys = data[1].clone();
-
 
     match state {
         "square" => {
@@ -28,23 +23,21 @@ fn cursor(data: Vec<String>) -> (){
             thread::spawn(move || {
                 cursor::square(keys);
             });
-            
         }
         "random" => {
             println!("random chosen");
-            thread::spawn( || {
+            thread::spawn(|| {
                 cursor::random(keys);
             });
         }
-        _ => {println!("something is wrong")}
+        _ => {
+            println!("something is wrong")
+        }
     }
-
-
 }
 
 #[tauri::command]
-fn click(data: Vec<String>) -> (){
-
+fn click(data: Vec<String>) -> () {
     let speed = data[0].clone().parse::<f64>().unwrap();
 
     let keys = data[1].clone();
@@ -57,13 +50,10 @@ fn click(data: Vec<String>) -> (){
 
 #[tauri::command]
 async fn set_key_bind() -> Vec<String> {
-
-
-
     let keys = input::get_key_bind();
     println!("getkeybind ENDED");
 
-    let mut  v: Vec<String> = Vec::new();
+    let mut v: Vec<String> = Vec::new();
 
     for Keycode in keys.iter() {
         v.push(Keycode.to_string());
@@ -72,8 +62,7 @@ async fn set_key_bind() -> Vec<String> {
     println!("strings now?");
     return v;
 
-
-   /*  match receiver.try_recv() {
+    /*  match receiver.try_recv() {
         Ok(_) => {
             println!("received input");
         }
@@ -83,12 +72,10 @@ async fn set_key_bind() -> Vec<String> {
         _ => {}
 
     }*/
-
 }
 
 #[tauri::command]
-fn hold(data: Vec<String>) -> (){
-
+fn hold(data: Vec<String>) -> () {
     let key_to_hold = data[0].clone();
     let keys = data[1].clone();
 
@@ -97,30 +84,27 @@ fn hold(data: Vec<String>) -> (){
     });
 }
 
-
-
 fn main() {
-
     // Systemtray
 
-    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
-    let tray_menu = SystemTrayMenu::new().add_item(quit);
+    //let quit = CustomMenuItem::new("quit".to_string(), "Quit");
+    //let tray_menu = SystemTrayMenu::new().add_item(quit);
 
-    let tray = SystemTray::new().with_menu(tray_menu);
+    //let tray = SystemTray::new().with_menu(tray_menu);
+    //let newTray = TrayIconBuilder::with_id("my-tray").build(app)?;
 
     tauri::Builder::default()
-        .system_tray(tray)
-        .on_system_tray_event(|app, event| match event {
-            SystemTrayEvent::MenuItemClick {id, ..} => {
-                match id.as_str() {
-                    "quit" => {
-                        std::process::exit(0);
-                    }
-                    _ => {}
+        .plugin(tauri_plugin_shell::init())
+        //.system_tray(tray)
+        /* .on_system_tray_event(|app, event| match event {
+            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+                "quit" => {
+                    std::process::exit(0);
                 }
-            }
+                _ => {}
+            },
             _ => {}
-        })
+        })*/
         .invoke_handler(tauri::generate_handler![cursor, click, set_key_bind, hold])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

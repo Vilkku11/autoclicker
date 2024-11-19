@@ -1,18 +1,12 @@
-
-use std::{thread,time,sync::mpsc};
+use std::{sync::mpsc, thread, time};
 
 use enigo::*;
 
-
 use crate::input;
-
 
 use spin_sleep::LoopHelper;
 
-
-pub fn click (speed: f64, keys: String) {
-
-
+pub fn click(speed: f64, keys: String) {
     let (sender, receiver) = mpsc::channel();
 
     let mut enigo: Enigo = Enigo::new();
@@ -24,15 +18,9 @@ pub fn click (speed: f64, keys: String) {
     let wait_time = time::Duration::from_millis(1000);
     thread::sleep(wait_time);
 
+    let mut loop_helper = LoopHelper::builder().build_with_target_rate(speed);
 
-
-
-   let mut loop_helper = LoopHelper::builder()
-        .build_with_target_rate(speed);
-
-    
     loop {
-
         loop_helper.loop_start();
 
         match receiver.try_recv() {
@@ -51,12 +39,9 @@ pub fn click (speed: f64, keys: String) {
         enigo.mouse_click(MouseButton::Left);
         loop_helper.loop_sleep();
     }
-
-
 }
 
-pub fn hold (key_to_hold: String, keys: String) {
-    
+pub fn hold(key_to_hold: String, keys: String) {
     let (sender, receiver) = mpsc::channel();
     let mut enigo: Enigo = Enigo::new();
 
@@ -72,7 +57,6 @@ pub fn hold (key_to_hold: String, keys: String) {
     enigo.key_down(Key::Space);
 
     loop {
-        
         match receiver.try_recv() {
             Ok(_) => {
                 println!("input received");
@@ -87,6 +71,4 @@ pub fn hold (key_to_hold: String, keys: String) {
             _ => {}
         }
     }
-
-
 }
