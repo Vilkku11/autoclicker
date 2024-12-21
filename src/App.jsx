@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
 import Cps from "./tabs/Cps";
@@ -13,7 +11,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 function App() {
   return (
     <div>
-      <h1>Autoclicker!</h1>
+      <h1>Autoclicker</h1>
       <Tabs>
         <TabList>
           <Tab>Click</Tab>
