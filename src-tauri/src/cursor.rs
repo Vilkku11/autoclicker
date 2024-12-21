@@ -1,6 +1,9 @@
 use std::{sync::mpsc, thread, time};
 
-use enigo::*;
+use enigo::{
+    Enigo, Mouse, Settings,
+    {Coordinate::Abs, Coordinate::Rel},
+};
 use rand::Rng;
 
 use crate::input;
@@ -8,7 +11,7 @@ use crate::input;
 pub fn square(keys: String) {
     let (sender, receiver) = mpsc::channel();
 
-    let mut enigo: Enigo = Enigo::new();
+    let mut enigo: Enigo = Enigo::new(&Settings::default()).unwrap();
 
     let ten_ms = time::Duration::from_millis(10);
 
@@ -21,49 +24,49 @@ pub fn square(keys: String) {
     // Set initial cursor position
     let mut x = min_x;
     let mut y = min_y;
-    enigo.mouse_move_to(min_x, min_y);
+    enigo.move_mouse(min_x, min_y, Abs).unwrap();
 
     loop {
         // Move cursor
         if x == min_x && y == min_y {
             x += 5;
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         } else if x < max_x && y == min_y {
             x += 5;
             if x > max_x {
                 x = max_x;
             }
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         } else if x == max_x && y == min_y {
             y += 5;
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         } else if x == max_x && y < max_y {
             y += 5;
             if y > max_y {
                 y = max_y;
             }
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         } else if x == max_x && y == max_y {
             x -= 5;
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         } else if x > min_x && y == max_y {
             x -= 5;
             if x < min_x {
                 x = min_x;
             }
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         } else if x == min_x && y == max_y {
             y -= 5;
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         } else if x == min_x && y > min_y {
             y -= 5;
             if y < min_y {
                 y = min_y;
             }
-            enigo.mouse_move_to(x, y);
+            enigo.move_mouse(x, y, Abs).unwrap();
         }
 
-        let (mouse_x, mouse_y) = enigo.mouse_location();
+        let (mouse_x, mouse_y) = enigo.location().unwrap();
         println!("{}, {}", mouse_x, mouse_y);
 
         // Check termination input
@@ -85,7 +88,7 @@ pub fn square(keys: String) {
 
 pub fn random(keys: String) -> () {
     let (sender, receiver) = mpsc::channel();
-    let mut enigo: Enigo = Enigo::new();
+    let mut enigo: Enigo = Enigo::new(&Settings::default()).unwrap();
     let ten_ms = time::Duration::from_millis(10);
 
     let mut direction: i32;
@@ -101,10 +104,10 @@ pub fn random(keys: String) -> () {
         amount = rand::thread_rng().gen_range(1..6);
 
         match direction {
-            0 => enigo.mouse_move_relative(0, -amount),
-            1 => enigo.mouse_move_relative(amount, 0),
-            2 => enigo.mouse_move_relative(0, amount),
-            3 => enigo.mouse_move_relative(-amount, 0),
+            0 => enigo.move_mouse(0, -amount, Rel).unwrap(),
+            1 => enigo.move_mouse(amount, 0,Rel).unwrap(),
+            2 => enigo.move_mouse(0, amount,Rel).unwrap(),
+            3 => enigo.move_mouse(-amount, 0,Rel).unwrap(),
             _ => {}
         }
 
@@ -125,8 +128,8 @@ pub fn random(keys: String) -> () {
 }
 
 fn calculate_square() -> (i32, i32, i32, i32) {
-    let enigo: Enigo = Enigo::new();
-    let (width, height) = enigo.main_display_size();
+    let mut enigo: Enigo = Enigo::new(&Settings::default()).unwrap();
+    let (width, height) = enigo.main_display().unwrap();
 
     let (center_x, center_y) = (width / 2, height / 2);
 
