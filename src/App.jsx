@@ -3,6 +3,7 @@ import "./App.css";
 import Cps from "./tabs/Cps";
 import Cursor from "./tabs/Cursor";
 import Hold from "./tabs/Hold";
+import File from "./tabs/File";
 
 //react tabs test
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -17,6 +18,7 @@ function App() {
           <Tab>Click</Tab>
           <Tab>Hold</Tab>
           <Tab>Cursor</Tab>
+          <Tab>File</Tab>
         </TabList>
 
         <TabPanel>
@@ -27,6 +29,9 @@ function App() {
         </TabPanel>
         <TabPanel>
           <Cursor />
+        </TabPanel>
+        <TabPanel>
+          <File />
         </TabPanel>
       </Tabs>
     </div>

@@ -105,9 +105,9 @@ pub fn random(keys: String) -> () {
 
         match direction {
             0 => enigo.move_mouse(0, -amount, Rel).unwrap(),
-            1 => enigo.move_mouse(amount, 0,Rel).unwrap(),
-            2 => enigo.move_mouse(0, amount,Rel).unwrap(),
-            3 => enigo.move_mouse(-amount, 0,Rel).unwrap(),
+            1 => enigo.move_mouse(amount, 0, Rel).unwrap(),
+            2 => enigo.move_mouse(0, amount, Rel).unwrap(),
+            3 => enigo.move_mouse(-amount, 0, Rel).unwrap(),
             _ => {}
         }
 

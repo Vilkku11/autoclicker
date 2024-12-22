@@ -1,8 +1,9 @@
 use std::{sync::mpsc, thread, time};
 
 use enigo::{
-    Direction::{Press, Release, Click},
-    Enigo, Key, Keyboard, Settings, Mouse, Button
+    Button,
+    Direction::{Click, Press, Release},
+    Enigo, Key, Keyboard, Mouse, Settings,
 };
 
 use crate::input;
@@ -60,7 +61,6 @@ pub fn hold(key_to_hold: String, keys: String) {
 
     //enigo.key_down(Key::Space);
     enigo.key(Key::Space, Press).unwrap();
-
 
     loop {
         match receiver.try_recv() {
