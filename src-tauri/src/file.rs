@@ -3,6 +3,8 @@ use tauri_plugin_dialog::DialogExt;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Notify;
 
+use std::fs::File;
+use std::io::{self, Read};
 
 #[tauri::command]
 pub async fn get_file_path (app: AppHandle) -> String{
@@ -42,3 +44,13 @@ pub async fn get_file_path (app: AppHandle) -> String{
 
     }
 
+
+pub fn read_file(file_path: &String) -> Result<String, io::Error> {
+    let mut file = File::open(file_path)?;
+
+    let mut contents = String::new();
+
+    file.read_to_string(&mut contents)?;
+
+    Ok(contents)
+}

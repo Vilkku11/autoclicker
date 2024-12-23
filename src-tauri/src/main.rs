@@ -7,6 +7,7 @@ use enigo::*;
 use tauri::{ AppHandle};
 use std::{sync::mpsc, thread, time};
 //use tauri::{CustomMenuItem, tray::TrayIconBuilder, SystemTrayEvent, SystemTrayMenu};
+use tauri_plugin_fs::FsExt;
 
 use tauri_plugin_dialog::DialogExt;
 
@@ -16,6 +17,9 @@ pub mod input;
 
 mod file;
 use file::get_file_path;
+
+mod commands;
+use commands::execute_commands;
 
 #[tauri::command]
 fn cursor(data: Vec<String>) -> () {
@@ -102,6 +106,7 @@ fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_fs::init())
         //.system_tray(tray)
         /* .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
@@ -112,7 +117,7 @@ fn main() {
             },
             _ => {}
         })*/
-        .invoke_handler(tauri::generate_handler![cursor, click, set_key_bind, hold, get_file_path])
+        .invoke_handler(tauri::generate_handler![cursor, click, set_key_bind, hold, get_file_path, execute_commands])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

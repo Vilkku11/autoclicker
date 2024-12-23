@@ -10,11 +10,20 @@ const File = () => {
     });
   };
 
+  const readFile = async () => {
+    await invoke("execute_commands", { filePath: filePath });
+  };
+
   return (
     <div>
       <h1>file</h1>
       <button onClick={handlePath}>Choose file</button>
       <p>{filePath}</p>
+      <button onClick={readFile}>Read file</button>
+      <label>
+        <input type="checkbox" />
+        Ignore whitespace
+      </label>
     </div>
   );
 };
