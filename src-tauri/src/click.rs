@@ -8,12 +8,12 @@ use enigo::{
 
 use crate::input;
 
-use spin_sleep::LoopHelper;
-
 pub fn click(speed: f64, keys: String) {
     let (sender, receiver) = mpsc::channel();
 
     let mut enigo: Enigo = Enigo::new(&Settings::default()).unwrap();
+    let sleep_time: f64 = 1.0 / speed;
+
 
     thread::spawn(move || {
         input::input(sender, keys);
@@ -22,10 +22,11 @@ pub fn click(speed: f64, keys: String) {
     let wait_time = time::Duration::from_millis(1000);
     thread::sleep(wait_time);
 
-    let mut loop_helper = LoopHelper::builder().build_with_target_rate(speed);
+    let spin_sleeper = spin_sleep::SpinSleeper::new(100_000)
+        .with_spin_strategy(spin_sleep::SpinStrategy::YieldThread);
+
 
     loop {
-        loop_helper.loop_start();
 
         match receiver.try_recv() {
             Ok(_) => {
@@ -42,7 +43,8 @@ pub fn click(speed: f64, keys: String) {
         println!("click once");
         //enigo.mouse_click(MouseButton::Left);
         enigo.button(Button::Left, Click).unwrap();
-        loop_helper.loop_sleep();
+
+        spin_sleeper.sleep_s(sleep_time);
     }
 }
 
